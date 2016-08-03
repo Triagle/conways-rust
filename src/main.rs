@@ -1,3 +1,5 @@
+use std::time::Duration;
+use std::thread;
 /*
 A Conway's game of life implementation in Rust, as a training exercise for me learning the language
 Goals:
@@ -75,8 +77,31 @@ fn update(grid: &Vec<Vec<bool>>) -> Vec<Vec<bool>> {
         }).collect::<Vec<bool>>()
     }).collect()
 }
-
-
-
+fn print_grid(grid: &Vec<Vec<bool>>) {
+    for row in grid {
+        for point in row {
+            if *point {
+                print!(" x ");
+            } else {
+                print!(" . ");
+            }
+        }
+        println!("\n");
+    }
+}
 fn main() {
+    let mut grid = vec![
+        vec![false, false, false, false, false],
+        vec![false, false, true, false, false],
+        vec![false, false, false, true, false],
+        vec![false, true, true, true, false],
+        vec![false, false, false, false, false]];
+
+    loop {
+        println!("--------------");
+        print_grid(&grid);
+        println!("--------------");
+        thread::sleep(Duration::from_millis(1000));
+        grid = update(&grid);
+    }
 }
